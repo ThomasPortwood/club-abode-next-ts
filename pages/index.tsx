@@ -2,15 +2,15 @@
  * https://nextjs.org/docs/basic-features/data-fetching
  * https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
  * https://swr.now.sh/ - for client side rendering
+ * https://nextjs.org/docs/api-reference/next/amp
  */
 import Head from 'next/head'
 import Layout, {siteTitle} from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import {getSortedPostsData} from '../lib/posts'
-
 import Link from 'next/link'
 import Date from '../components/date'
-import {GetServerSideProps, GetStaticProps} from "next";
+import {GetStaticProps} from "next";
 
 export const getStaticProps: GetStaticProps = async context => {
   const allPostsData = getSortedPostsData();
