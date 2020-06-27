@@ -10,23 +10,24 @@ import {getSortedPostsData} from '../lib/posts'
 
 import Link from 'next/link'
 import Date from '../components/date'
+import {GetServerSideProps, GetStaticProps} from "next";
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async context => {
   const allPostsData = getSortedPostsData();
   return {
     props: {
       allPostsData
     }
   }
-}
+};
 
-// export async function getServerSideProps(context) {
+// export const getServerSideProps: GetServerSideProps = async context => {
 //   return {
 //     props: {
 //       // props for your component
 //     }
 //   }
-// }
+// };
 
 export default function Home({allPostsData}) {
   return (
@@ -35,7 +36,7 @@ export default function Home({allPostsData}) {
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>Here is my introduction!</p>
+        <p>Now in TypeScript!</p>
         <p>
           (This is a sample website - you’ll be building a site like this on{' '}
           <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
