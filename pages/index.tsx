@@ -2,7 +2,7 @@
  * https://nextjs.org/docs/basic-features/data-fetching
  * https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
  * https://swr.now.sh/ - for client side rendering
- * https://nextjs.org/docs/api-reference/next/amp
+ *
  */
 import Head from 'next/head'
 import Layout, {siteTitle} from '../components/layout'

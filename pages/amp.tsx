@@ -1,4 +1,17 @@
-export const config = { amp: true };
+/**
+ * https://nextjs.org/docs/api-reference/next/amp
+ * https://nextjs.org/docs/advanced-features/amp-support/typescript
+ */
+
+export const config = {amp: true};
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'amp-timeago': any;
+    }
+  }
+}
 
 export default function Amp() {
   const date = new Date();
