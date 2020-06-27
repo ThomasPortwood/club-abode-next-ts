@@ -1,4 +1,8 @@
-// https://nextjs.org/docs/basic-features/typescript#api-routes
+/**
+ * https://nextjs.org/docs/api-routes/dynamic-api-routes
+ * https://nextjs.org/docs/basic-features/typescript#api-routes
+ */
+
 import {NextApiRequest, NextApiResponse} from 'next'
 
 type Data = {
