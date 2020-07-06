@@ -6,9 +6,10 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 
 type Data = {
-  name: string
+  result: string
 }
 
-export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  res.status(200).json({name: 'Testing Successful'})
+export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+
+  res.status(200).json({result: "success"});
 }

@@ -9,6 +9,7 @@ declare global {
   namespace JSX {
     interface IntrinsicElements {
       'amp-timeago': any;
+      'amp-sidebar': any;
     }
   }
 }
