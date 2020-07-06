@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 
-import Home from '../index';
+import Home from '../../pages';
 
 describe('Home', () => {
   test('renders App component', () => {
