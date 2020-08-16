@@ -1,5 +1,6 @@
 // https://reactjs.org/docs/hooks-intro.html
 import React, {useState} from 'react';
+import Head from "next/head";
 // https://uber.github.io/react-map-gl/#/
 import ReactMapGL from 'react-map-gl';
 // https://material-ui.com/components/
@@ -82,6 +83,9 @@ export default function MyMapbox() {
 
   return (
     <div className={classes.root}>
+      <Head>
+        <title>Club Abode Map</title>
+      </Head>
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOXAPIACCESSTOKEN}

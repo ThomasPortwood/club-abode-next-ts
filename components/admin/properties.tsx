@@ -1,7 +1,29 @@
 import React, {cloneElement} from 'react';
-import {AutocompleteInput, Button, Create, Datagrid, DeleteButton, Edit, EditButton, ExportButton, Filter, List, ReferenceField, ReferenceInput, ReferenceManyField, SimpleForm, TabbedForm, FormTab, sanitizeListRestProps, TextField, TextInput, TopToolbar, useListContext} from 'react-admin';
+import {
+  AutocompleteInput,
+  Button,
+  Create,
+  Datagrid,
+  DeleteButton,
+  Edit,
+  EditButton,
+  ExportButton,
+  Filter,
+  FormTab,
+  List,
+  ReferenceInput,
+  ReferenceManyField,
+  sanitizeListRestProps,
+  SimpleForm,
+  TabbedForm,
+  TextField,
+  TextInput,
+  TopToolbar,
+  useListContext
+} from 'react-admin';
 import {Link, useHistory} from "react-router-dom";
 import IconAdd from "@material-ui/icons/Add";
+import Head from "next/head";
 
 const PropertyListActions = (props: any) => {
 
@@ -34,10 +56,10 @@ const PropertyListActions = (props: any) => {
         context: 'button',
       })}
       <Button
-        onClick={() => history.push('properties/create') }
+        onClick={() => history.push('properties/create')}
         label="Create"
       >
-        <IconAdd />
+        <IconAdd/>
       </Button>
       <ExportButton
         disabled={total === 0}
@@ -57,28 +79,38 @@ const PropertyFilter = (props: any) => (
 );
 
 export const PropertyList = (props: any) => (
-  <List actions={<PropertyListActions/>} filters={<PropertyFilter/>} {...props}>
-    <Datagrid rowClick="edit">
-      <TextField source="name"/>
-      <EditButton/>
-    </Datagrid>
-  </List>
+  <div>
+    <Head>
+      <title>All Properties</title>
+    </Head>
+    <List actions={<PropertyListActions/>} filters={<PropertyFilter/>} {...props}>
+      <Datagrid rowClick="edit">
+        <TextField source="name"/>
+        <EditButton/>
+      </Datagrid>
+    </List>
+  </div>
 );
 
 export const PropertyCreate = (props: any) => {
   const redirect = `/properties`;
   return (
-    <Create {...props}>
-      <SimpleForm redirect={redirect}>
-        <TextInput source="name"/>
-        <TextInput source="address"/>
-        <TextInput source="attributes" initialValue="{}"/>
-      </SimpleForm>
-    </Create>
+    <div>
+      <Head>
+        <title>Add Property</title>
+      </Head>
+      <Create {...props}>
+        <SimpleForm redirect={redirect}>
+          <TextInput source="name"/>
+          <TextInput source="address"/>
+          <TextInput source="attributes" initialValue="{}"/>
+        </SimpleForm>
+      </Create>
+    </div>
   )
 };
 
-const AddFixtureButton = ({ classes, record }: any) => (
+const AddFixtureButton = ({classes, record}: any) => (
   <Button
     variant="contained"
     component={Link}
@@ -87,7 +119,7 @@ const AddFixtureButton = ({ classes, record }: any) => (
   />
 );
 
-const AddDocumentButton = ({ classes, record }: any) => (
+const AddDocumentButton = ({classes, record}: any) => (
   <Button
     variant="contained"
     component={Link}
@@ -98,46 +130,51 @@ const AddDocumentButton = ({ classes, record }: any) => (
 
 export const PropertyEdit = (props: any) => {
   return (
-    <Edit {...props}>
-      <TabbedForm redirect={false}>
-        <FormTab label="Fixtures">
-          <ReferenceManyField
-            reference="fixtures"
-            target={`${props.basePath}/${props.id}/fixtures`}>
-            <Datagrid rowClick="edit">
-              <TextField source="name"/>
-              <EditButton/>
-              <DeleteButton/>
-            </Datagrid>
-          </ReferenceManyField>
-          <AddFixtureButton/>
-        </FormTab>
-        <FormTab label="Documents">
-          <ReferenceManyField
-            reference="documents"
-            target={`${props.basePath}/${props.id}/documents`} >
-            <Datagrid rowClick="edit">
-              <TextField source="name"/>
-              <EditButton/>
-              <DeleteButton/>
-            </Datagrid>
-          </ReferenceManyField>
-          <AddDocumentButton/>
-        </FormTab>
-        <FormTab label="Settings">
-          <TextInput source="address" fullWidth/>
-          <ReferenceInput
-            label="Owner"
-            source="ownerId"
-            reference="members">
-            <AutocompleteInput optionText="name"/>
-          </ReferenceInput>
-          <TextInput source="name"/>
-        </FormTab>
-        <FormTab label="Misc">
-          <TextInput source="attributes"/>
-        </FormTab>
-      </TabbedForm>
-    </Edit>
+    <div>
+      <Head>
+        <title>Edit Property</title>
+      </Head>
+      <Edit {...props}>
+        <TabbedForm redirect={false}>
+          <FormTab label="Fixtures">
+            <ReferenceManyField
+              reference="fixtures"
+              target={`${props.basePath}/${props.id}/fixtures`}>
+              <Datagrid rowClick="edit">
+                <TextField source="name"/>
+                <EditButton/>
+                <DeleteButton/>
+              </Datagrid>
+            </ReferenceManyField>
+            <AddFixtureButton/>
+          </FormTab>
+          <FormTab label="Documents">
+            <ReferenceManyField
+              reference="documents"
+              target={`${props.basePath}/${props.id}/documents`}>
+              <Datagrid rowClick="edit">
+                <TextField source="name"/>
+                <EditButton/>
+                <DeleteButton/>
+              </Datagrid>
+            </ReferenceManyField>
+            <AddDocumentButton/>
+          </FormTab>
+          <FormTab label="Settings">
+            <TextInput source="address" fullWidth/>
+            <ReferenceInput
+              label="Owner"
+              source="ownerId"
+              reference="members">
+              <AutocompleteInput optionText="name"/>
+            </ReferenceInput>
+            <TextInput source="name"/>
+          </FormTab>
+          <FormTab label="Misc">
+            <TextInput source="attributes"/>
+          </FormTab>
+        </TabbedForm>
+      </Edit>
+    </div>
   )
 };

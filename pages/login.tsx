@@ -1,6 +1,7 @@
 import {useAuth} from 'use-auth0-hooks';
 import React from "react";
 import { useRouter } from 'next/router'
+import Head from "next/head";
 
 export default function Login() {
 
@@ -29,6 +30,9 @@ export default function Login() {
 
   return (
     <div>
+      <Head>
+        <title>Logging in</title>
+      </Head>
       You made it!
       <br/>
       <button onClick={() => logout({ returnTo: 'http://localhost:3000' })}>Log out</button>

@@ -2,9 +2,32 @@ import React, {cloneElement} from 'react';
 // https://marmelab.com/react-admin/Tutorial.html
 // https://github.com/marmelab/react-admin/issues/4505
 // @ts-ignore
-import {TopToolbar, sanitizeListRestProps, ExportButton, AutocompleteInput, Button, Create, Datagrid, DeleteButton, Edit, EditButton, Filter, List, ReferenceField, ReferenceInput, SimpleForm, TabbedForm, FormTab, ReferenceManyField, TextField, TextInput, useListContext} from 'react-admin';
-import { Link, useHistory } from 'react-router-dom';
+import {
+  AutocompleteInput,
+  Button,
+  Create,
+  Datagrid,
+  DeleteButton,
+  Edit,
+  EditButton,
+  ExportButton,
+  Filter,
+  FormTab,
+  List,
+  ReferenceField,
+  ReferenceInput,
+  ReferenceManyField,
+  sanitizeListRestProps,
+  SimpleForm,
+  TabbedForm,
+  TextField,
+  TextInput,
+  TopToolbar,
+  useListContext
+} from 'react-admin';
+import {Link, useHistory} from 'react-router-dom';
 import IconAdd from '@material-ui/icons/Add';
+import Head from "next/head";
 
 const OrganizationFilter = (props: any) => (
   <Filter {...props}>
@@ -43,10 +66,10 @@ const OrganizationListActions = (props: any) => {
         context: 'button',
       })}
       <Button
-        onClick={() => history.push('organizations/create') }
+        onClick={() => history.push('organizations/create')}
         label="Create"
       >
-        <IconAdd />
+        <IconAdd/>
       </Button>
       <ExportButton
         disabled={total === 0}
@@ -60,27 +83,37 @@ const OrganizationListActions = (props: any) => {
 };
 
 export const OrganizationList = (props: any) => (
-  <List actions={<OrganizationListActions/>} filters={<OrganizationFilter/>} {...props}>
-    <Datagrid rowClick="edit">
-      <TextField source="name"/>
-      <ReferenceField label="Owner" source="ownerId" reference="members">
+  <div>
+    <Head>
+      <title>All Organizations</title>
+    </Head>
+    <List actions={<OrganizationListActions/>} filters={<OrganizationFilter/>} {...props}>
+      <Datagrid rowClick="edit">
         <TextField source="name"/>
-      </ReferenceField>
-      <EditButton/>
-    </Datagrid>
-  </List>
+        <ReferenceField label="Owner" source="ownerId" reference="members">
+          <TextField source="name"/>
+        </ReferenceField>
+        <EditButton/>
+      </Datagrid>
+    </List>
+  </div>
 );
 
 export const OrganizationCreate = (props: any) => (
-  <Create {...props}>
-    <SimpleForm>
-      <TextInput source="name"/>
-      <TextInput source="attributes" initialValue="{}"/>
-    </SimpleForm>
-  </Create>
+  <div>
+    <Head>
+      <title>Add Organization</title>
+    </Head>
+    <Create {...props}>
+      <SimpleForm>
+        <TextInput source="name"/>
+        <TextInput source="attributes" initialValue="{}"/>
+      </SimpleForm>
+    </Create>
+  </div>
 );
 
-const AddOrganizationMemberButton = ({ classes, record }: any) => {
+const AddOrganizationMemberButton = ({classes, record}: any) => {
   return (
     <Button
       variant="contained"
@@ -94,32 +127,37 @@ const AddOrganizationMemberButton = ({ classes, record }: any) => {
 export const OrganizationEdit = (props: any) => {
   const deleteRedirect = props.id ? `/organizations/${props.id}` : "/organizations";
   return (
-    <Edit {...props}>
-      <TabbedForm redirect={false}>
-        <FormTab label="Members">
-          <ReferenceManyField
-            reference="organizationMembers"
-            target={`${props.basePath}/${props.id}/organizationMembers`} >
-            <Datagrid>
-              <ReferenceField source="memberId" reference="members">
-                <TextField source="name"/>
-              </ReferenceField>
-              <TextField label="Permission"/>
-              <DeleteButton redirect={deleteRedirect}/>
-            </Datagrid>
-          </ReferenceManyField>
-          <AddOrganizationMemberButton/>
-        </FormTab>
-        <FormTab label="Settings">
-          <ReferenceInput
-            label="Owner"
-            source="ownerId"
-            reference="members">
-            <AutocompleteInput optionText="name"/>
-          </ReferenceInput>
-          <TextInput source="name"/>
-        </FormTab>
-      </TabbedForm>
-    </Edit>
+    <div>
+      <Head>
+        <title>Edit Organization</title>
+      </Head>
+      <Edit {...props}>
+        <TabbedForm redirect={false}>
+          <FormTab label="Members">
+            <ReferenceManyField
+              reference="organizationMembers"
+              target={`${props.basePath}/${props.id}/organizationMembers`}>
+              <Datagrid>
+                <ReferenceField source="memberId" reference="members">
+                  <TextField source="name"/>
+                </ReferenceField>
+                <TextField label="Permission"/>
+                <DeleteButton redirect={deleteRedirect}/>
+              </Datagrid>
+            </ReferenceManyField>
+            <AddOrganizationMemberButton/>
+          </FormTab>
+          <FormTab label="Settings">
+            <ReferenceInput
+              label="Owner"
+              source="ownerId"
+              reference="members">
+              <AutocompleteInput optionText="name"/>
+            </ReferenceInput>
+            <TextInput source="name"/>
+          </FormTab>
+        </TabbedForm>
+      </Edit>
+    </div>
   )
 };

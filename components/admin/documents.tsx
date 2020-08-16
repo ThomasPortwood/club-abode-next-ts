@@ -5,6 +5,7 @@ import React from 'react';
 import {Create, Edit, FileField, FileInput, ReferenceInput, SelectInput, SimpleForm, TextInput} from 'react-admin';
 import {Typography} from '@material-ui/core';
 import {parse} from "query-string";
+import Head from "next/head";
 
 const DocumentTitle = ({record}: any) => {
   return <span>Document {record ? `"${record.name}"` : ''}</span>;
@@ -14,16 +15,21 @@ export const DocumentCreate = (props: any) => {
   const {propertyId} = parse(props.location.search);
   const redirect = propertyId ? `/properties/${propertyId}/1` : false;
   return (
-    <Create {...props}>
-      <SimpleForm redirect={redirect}>
-        <TextInput source="propertyId" initialValue={propertyId} disabled/>
-        <TextInput source="name"/>
-        <TextInput source="description"/>
-        <FileInput source="file" label="File" multiple={false}>
-          <FileField source="src" title="title"/>
-        </FileInput>
-      </SimpleForm>
-    </Create>
+    <div>
+      <Head>
+        <title>New Document</title>
+      </Head>
+      <Create {...props}>
+        <SimpleForm redirect={redirect}>
+          <TextInput source="propertyId" initialValue={propertyId} disabled/>
+          <TextInput source="name"/>
+          <TextInput source="description"/>
+          <FileInput source="file" label="File" multiple={false}>
+            <FileField source="src" title="title"/>
+          </FileInput>
+        </SimpleForm>
+      </Create>
+    </div>
   );
 };
 
@@ -37,14 +43,19 @@ const Aside = () => (
 );
 
 export const DocumentEdit = (props: any) => (
-  <Edit aside={<Aside/>} title={<DocumentTitle/>} {...props}>
-    <SimpleForm>
-      <ReferenceInput label="Property" source="propertyId" reference="properties">
-        <SelectInput optionText="name"/>
-      </ReferenceInput>
-      <TextInput source="name"/>
-      <TextInput source="attributes"/>
-      <FileField source="url" title="name"/>
-    </SimpleForm>
-  </Edit>
+  <div>
+    <Head>
+      <title>Edit Document</title>
+    </Head>
+    <Edit aside={<Aside/>} title={<DocumentTitle/>} {...props}>
+      <SimpleForm>
+        <ReferenceInput label="Property" source="propertyId" reference="properties">
+          <SelectInput optionText="name"/>
+        </ReferenceInput>
+        <TextInput source="name"/>
+        <TextInput source="attributes"/>
+        <FileField source="url" title="name"/>
+      </SimpleForm>
+    </Edit>
+  </div>
 );

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import {Route} from 'react-router-dom';
+import Head from "next/head";
 // https://github.com/sandrinodimattia/use-auth0-hooks
 import {useAuth, withLoginRequired} from 'use-auth0-hooks';
 // https://nextjs.org/docs/basic-features/data-fetching
@@ -65,23 +66,25 @@ function ReactAdmin({testing}) {
   const dataProvider = reactAdminHalDataProvider(accessToken);
 
   return (
-    <Admin
-      title="Club Abode"
-      dataProvider={dataProvider}
-      dashboard={Overview}
-      layout={Layout}
-      theme={myTheme}
-      customRoutes={[
-        <Route key="map" path="/map" component={MyMapbox}/>
-      ]}
-    >
-      <Resource name="documents" create={DocumentCreate} edit={DocumentEdit}/>
-      <Resource name="fixtures" create={FixtureCreate} edit={FixtureEdit}/>
-      <Resource name="organizations" list={OrganizationList} create={OrganizationCreate} edit={OrganizationEdit}/>
-      <Resource name="organizationMembers" create={OrganizationMemberCreate}/>
-      <Resource name="properties" list={PropertyList} create={PropertyCreate} edit={PropertyEdit}/>
-      <Resource name="members" list={MemberList}/>
-    </Admin>
+    <div>
+      <Admin
+        title="Club Abode"
+        dataProvider={dataProvider}
+        dashboard={Overview}
+        layout={Layout}
+        theme={myTheme}
+        customRoutes={[
+          <Route key="map" path="/map" component={MyMapbox}/>
+        ]}
+      >
+        <Resource name="documents" create={DocumentCreate} edit={DocumentEdit}/>
+        <Resource name="fixtures" create={FixtureCreate} edit={FixtureEdit}/>
+        <Resource name="organizations" list={OrganizationList} create={OrganizationCreate} edit={OrganizationEdit}/>
+        <Resource name="organizationMembers" create={OrganizationMemberCreate}/>
+        <Resource name="properties" list={PropertyList} create={PropertyCreate} edit={PropertyEdit}/>
+        <Resource name="members" list={MemberList}/>
+      </Admin>
+    </div>
   );
 }
 

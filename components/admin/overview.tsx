@@ -18,6 +18,7 @@ import {
   Theme,
   Typography
 } from '@material-ui/core';
+import Head from "next/head";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -77,7 +78,7 @@ export const PropertyCard = ({property}: any) => {
         <Button size="small" className={classes.propertyCardTitle}>
           <Link to={`/properties/${property.id}`}>
             <Typography className={classes.propertyCardTitle}>
-              Settings
+              Details
             </Typography>
           </Link>
         </Button>
@@ -112,44 +113,38 @@ export const Overview = () => {
   }
 
   return (
-
-    <Grid container spacing={2} justify="center">
-
-      <Grid container spacing={2} justify="center" item xs={12}>
-
-        <Grid item xs={6}>
-          <OverviewProfile/>
-        </Grid>
-
-        <Grid item xs='auto'>
-          <Button
-            variant='outlined'
-            onClick={() => history.push('/properties/create')}>New Property
-          </Button>
-        </Grid>
-
-      </Grid>
-
-      <Grid container spacing={2} justify="center" item xs={12}>
-
-        <Grid item lg={8} xs='auto'>
-          <Grid container spacing={2} justify="center">
-            {properties.map(p => (
-              <Grid key={p.id} item>
-                <PropertyCard property={p}/>
-              </Grid>
-            ))}
+    <div>
+      <Head>
+        <title>Overview</title>
+      </Head>
+      <Grid container spacing={2} justify="center">
+        <Grid container spacing={2} justify="center" item xs={12}>
+          <Grid item xs={6}>
+            <OverviewProfile/>
+          </Grid>
+          <Grid item xs='auto'>
+            <Button
+              variant='outlined'
+              onClick={() => history.push('/properties/create')}>New Property
+            </Button>
           </Grid>
         </Grid>
-
-        <Grid item xs='auto'>
-          Recent Activity (coming soon)
+        <Grid container spacing={2} justify="center" item xs={12}>
+          <Grid item lg={8} xs='auto'>
+            <Grid container spacing={2} justify="center">
+              {properties.map(p => (
+                <Grid key={p.id} item>
+                  <PropertyCard property={p}/>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+          <Grid item xs='auto'>
+            Recent Activity (coming soon)
+          </Grid>
         </Grid>
-
       </Grid>
-
-    </Grid>
-
+    </div>
   )
 };
 
