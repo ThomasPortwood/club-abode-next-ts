@@ -14,7 +14,7 @@ export default ({
   return <Auth0Provider
     domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN}
     clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID}
-    redirectUri={'http://localhost:3000'}>
+    redirectUri={process.env.NEXT_PUBLIC_AUTH0_REDIRECT}>
     <Component {...pageProps} />
   </Auth0Provider>
 }
