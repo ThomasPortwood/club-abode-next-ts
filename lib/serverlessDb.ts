@@ -15,6 +15,9 @@ const serverlessDb = mysql({
 
 exports.query = async query => {
   try {
+
+    console.log(query);
+
     const results = await serverlessDb.query(query)
     await serverlessDb.end()
     return results
