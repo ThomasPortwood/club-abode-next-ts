@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 // https://github.com/sandrinodimattia/use-auth0-hooks
 import {useAuth, withLoginRequired} from 'use-auth0-hooks';
 // https://nextjs.org/docs/basic-features/data-fetching
@@ -7,10 +8,17 @@ import {createMuiTheme} from "@material-ui/core/styles";
 // https://marmelab.com/react-admin/Tutorial.html
 // https://github.com/marmelab/react-admin/issues/4505
 import {Admin, Loading, Resource} from "react-admin";
+// mine:
 import reactAdminHalDataProvider from "../lib/reactAdminHalDataProvider";
 import Layout from "../components/admin/layout";
-import {PropertyList} from "../components/admin/properties";
+import {PropertyCreate, PropertyEdit, PropertyList} from "../components/admin/properties";
 import {MemberList} from "../components/admin/members";
+import {Overview} from "../components/admin/overview";
+import {OrganizationCreate, OrganizationEdit, OrganizationList} from "../components/admin/organizations";
+import {OrganizationMemberCreate} from "../components/admin/organizationMembers";
+import {FixtureCreate, FixtureEdit} from "../components/admin/fixtures";
+import {DocumentCreate, DocumentEdit} from "../components/admin/documents";
+import MyMapbox from "../components/admin/map";
 
 // https://material-ui.com/customization/typography/
 // https://material-ui.com/customization/breakpoints/
@@ -37,7 +45,19 @@ function ReactAdmin({testing}) {
 
   const {accessToken} = useAuth({
     audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
-    scope: 'read:properties'
+    scope:
+      "read:fixtures " +
+      "write:fixtures " +
+      "read:verifications " +
+      "write:verifications " +
+      "read:properties " +
+      "write:properties " +
+      "read:documents " +
+      "write:documents " +
+      "read:records " +
+      "write:records " +
+      "read:organizations " +
+      "write:organizations"
   });
 
   if (!accessToken) return (<Loading/>)
@@ -45,8 +65,21 @@ function ReactAdmin({testing}) {
   const dataProvider = reactAdminHalDataProvider(accessToken);
 
   return (
-    <Admin title="Club Abode" dataProvider={dataProvider} layout={Layout} theme={myTheme}>
-      <Resource name="properties" list={PropertyList}/>
+    <Admin
+      title="Club Abode"
+      dataProvider={dataProvider}
+      dashboard={Overview}
+      layout={Layout}
+      theme={myTheme}
+      customRoutes={[
+        <Route key="map" path="/map" component={MyMapbox}/>
+      ]}
+    >
+      <Resource name="documents" create={DocumentCreate} edit={DocumentEdit}/>
+      <Resource name="fixtures" create={FixtureCreate} edit={FixtureEdit}/>
+      <Resource name="organizations" list={OrganizationList} create={OrganizationCreate} edit={OrganizationEdit}/>
+      <Resource name="organizationMembers" create={OrganizationMemberCreate}/>
+      <Resource name="properties" list={PropertyList} create={PropertyCreate} edit={PropertyEdit}/>
       <Resource name="members" list={MemberList}/>
     </Admin>
   );
