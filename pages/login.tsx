@@ -35,7 +35,7 @@ export default function Login() {
       </Head>
       You made it!
       <br/>
-      <button onClick={() => logout({ returnTo: 'http://localhost:3000' })}>Log out</button>
+      <button onClick={() => logout({ returnTo: { pathname, query } })}>Log out</button>
     </div>
   );
 }
