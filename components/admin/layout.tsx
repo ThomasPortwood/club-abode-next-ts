@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {useState} from 'react';
 import {useHistory} from 'react-router-dom';
-import Head from "next/head";
 import {makeStyles, Theme, ThemeProvider} from '@material-ui/core/styles';
 //@ts-ignore
 import {Notification} from 'react-admin';
@@ -50,11 +49,8 @@ const Layout = ({children, theme, title}: LayoutProps) => {
     history.push(tabs[newValue].key);
   };
 
-  console.log(children);
-
   return (
     <ThemeProvider theme={theme}>
-      <Head>Something</Head>
       <div className={classes.root}>
 
         <Grid container justify="center" spacing={2}>
@@ -62,8 +58,12 @@ const Layout = ({children, theme, title}: LayoutProps) => {
           <Grid item md={10} xs={12}>
             <Toolbar>
               <Typography className={classes.title}>{title}</Typography>
-              <Button variant="outlined" color="inherit"
-                      onClick={() => logout({returnTo: 'http://localhost:3000'})}>Logout</Button>
+              <Button
+                variant="outlined"
+                color="inherit"
+                onClick={() => logout({returnTo: process.env.NEXT_PUBLIC_AUTH0_REDIRECT})}>
+                Logout
+              </Button>
             </Toolbar>
           </Grid>
 

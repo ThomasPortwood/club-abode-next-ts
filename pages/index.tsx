@@ -4,10 +4,10 @@
  * https://swr.now.sh/ - for client side rendering
  */
 import React from 'react';
-import {GetStaticProps} from "next";
 import Head from "next/head";
 import Link from "next/link";
 import utilStyles from '../styles/utils.module.css'
+import {Grid} from '@material-ui/core';
 
 // export const getStaticProps: GetStaticProps = async context => {
 //   const allPostsData = getSortedPostsData();
@@ -33,17 +33,14 @@ const Home = ({allPostsData}) => {
         <title>Club Abode</title>
       </Head>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <Link href="/login">
-          <a>Manual Login</a>
-        </Link>
-        <br/>
-        <Link href="/profile">
-          <a>Auto-login for Profile</a>
-        </Link>
-        <br/>
-        <Link href="/admin">
-          <a>Admin</a>
-        </Link>
+        <Grid container justify="center">
+          <Grid item>
+            <a href={`/admin`}>
+              <img src="favicon.ico" width="100" height="100">
+              </img>
+            </a>
+          </Grid>
+        </Grid>
       </section>
     </div>
   )
