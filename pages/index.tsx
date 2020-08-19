@@ -44,47 +44,47 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
 function ReactAdmin({testing}) {
 
-  // const {accessToken} = useAuth({
-  //   audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
-  //   scope:
-  //     "read:fixtures " +
-  //     "write:fixtures " +
-  //     "read:verifications " +
-  //     "write:verifications " +
-  //     "read:properties " +
-  //     "write:properties " +
-  //     "read:documents " +
-  //     "write:documents " +
-  //     "read:records " +
-  //     "write:records " +
-  //     "read:organizations " +
-  //     "write:organizations"
-  // });
+  const {accessToken} = useAuth({
+    audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+    scope:
+      "read:fixtures " +
+      "write:fixtures " +
+      "read:verifications " +
+      "write:verifications " +
+      "read:properties " +
+      "write:properties " +
+      "read:documents " +
+      "write:documents " +
+      "read:records " +
+      "write:records " +
+      "read:organizations " +
+      "write:organizations"
+  });
 
-  // if (!accessToken) return (<Loading/>)
+  if (!accessToken) return (<Loading/>)
 
-  // const dataProvider = reactAdminHalDataProvider(accessToken);
+  const dataProvider = reactAdminHalDataProvider(accessToken);
 
   return (
     <div>
       Testing
-      {/*<Admin*/}
-      {/*  title="Club Abode"*/}
-      {/*  dataProvider={dataProvider}*/}
-      {/*  dashboard={Overview}*/}
-      {/*  layout={Layout}*/}
-      {/*  theme={myTheme}*/}
-      {/*  customRoutes={[*/}
-      {/*    <Route key="map" path="/map" component={MyMapbox}/>*/}
-      {/*  ]}*/}
-      {/*>*/}
-      {/*  <Resource name="documents" create={DocumentCreate} edit={DocumentEdit}/>*/}
-      {/*  <Resource name="fixtures" create={FixtureCreate} edit={FixtureEdit}/>*/}
-      {/*  <Resource name="organizations" list={OrganizationList} create={OrganizationCreate} edit={OrganizationEdit}/>*/}
-      {/*  <Resource name="organizationMembers" create={OrganizationMemberCreate}/>*/}
-      {/*  <Resource name="properties" list={PropertyList} create={PropertyCreate} edit={PropertyEdit}/>*/}
-      {/*  <Resource name="members" list={MemberList}/>*/}
-      {/*</Admin>*/}
+      <Admin
+        title="Club Abode"
+        dataProvider={dataProvider}
+        dashboard={Overview}
+        layout={Layout}
+        theme={myTheme}
+        customRoutes={[
+          <Route key="map" path="/map" component={MyMapbox}/>
+        ]}
+      >
+        <Resource name="documents" create={DocumentCreate} edit={DocumentEdit}/>
+        <Resource name="fixtures" create={FixtureCreate} edit={FixtureEdit}/>
+        <Resource name="organizations" list={OrganizationList} create={OrganizationCreate} edit={OrganizationEdit}/>
+        <Resource name="organizationMembers" create={OrganizationMemberCreate}/>
+        <Resource name="properties" list={PropertyList} create={PropertyCreate} edit={PropertyEdit}/>
+        <Resource name="members" list={MemberList}/>
+      </Admin>
     </div>
   );
 }
