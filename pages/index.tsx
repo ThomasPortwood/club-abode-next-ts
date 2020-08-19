@@ -1,50 +1,92 @@
-/**
- * https://nextjs.org/docs/basic-features/data-fetching
- * https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
- * https://swr.now.sh/ - for client side rendering
- */
 import React from 'react';
+import {Route} from 'react-router-dom';
 import Head from "next/head";
-import utilStyles from '../styles/utils.module.css'
-import {Grid} from '@material-ui/core';
+// https://github.com/sandrinodimattia/use-auth0-hooks
+import {useAuth, withLoginRequired} from 'use-auth0-hooks';
+// https://nextjs.org/docs/basic-features/data-fetching
+import {GetServerSideProps} from "next";
+import {createMuiTheme} from "@material-ui/core/styles";
+// https://marmelab.com/react-admin/Tutorial.html
+// https://github.com/marmelab/react-admin/issues/4505
+import {Admin, Loading, Resource} from "react-admin";
+// mine:
+import reactAdminHalDataProvider from "../lib/reactAdminHalDataProvider";
+import Layout from "../components/admin/layout";
+import {PropertyCreate, PropertyEdit, PropertyList} from "../components/admin/properties";
+import {MemberList} from "../components/admin/members";
+import {Overview} from "../components/admin/overview";
+import {OrganizationCreate, OrganizationEdit, OrganizationList} from "../components/admin/organizations";
+import {OrganizationMemberCreate} from "../components/admin/organizationMembers";
+import {FixtureCreate, FixtureEdit} from "../components/admin/fixtures";
+import {DocumentCreate, DocumentEdit} from "../components/admin/documents";
+import MyMapbox from "../components/admin/map";
 
-// export const getStaticProps: GetStaticProps = async context => {
-//   const allPostsData = getSortedPostsData();
-//   return {
-//     props: {
-//       allPostsData
-//     }
-//   }
-// };
-
-// export const getServerSideProps: GetServerSideProps = async context => {
-//   return {
-//     props: {
-//       // props for your component
-//     }
-//   }
-// };
-
-const Home = ({allPostsData}) => {
-  return (
-    <div>
-      <Head>
-        <title>Club Abode</title>
-      </Head>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <Grid container justify="center">
-          <Grid item>
-            <div className={`${utilStyles.login}`}>
-              <a href={`/admin`}>
-                <img src="favicon.ico"/>
-                Login
-              </a>
-            </div>
-          </Grid>
-        </Grid>
-      </section>
-    </div>
-  )
+// https://material-ui.com/customization/typography/
+// https://material-ui.com/customization/breakpoints/
+const myTheme = createMuiTheme();
+myTheme.typography.h4 = {
+  fontSize: '1.0rem',
+  [myTheme.breakpoints.up('md')]: {
+    fontSize: '1.5rem',
+  },
+  [myTheme.breakpoints.up('lg')]: {
+    fontSize: '2.0rem',
+  }
 };
 
-export default Home;
+export const getServerSideProps: GetServerSideProps = async context => {
+  return {
+    props: {
+      testing: "here"
+    }
+  }
+};
+
+function ReactAdmin({testing}) {
+
+  const {accessToken} = useAuth({
+    audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+    scope:
+      "read:fixtures " +
+      "write:fixtures " +
+      "read:verifications " +
+      "write:verifications " +
+      "read:properties " +
+      "write:properties " +
+      "read:documents " +
+      "write:documents " +
+      "read:records " +
+      "write:records " +
+      "read:organizations " +
+      "write:organizations"
+  });
+
+  if (!accessToken) return (<Loading/>)
+
+  const dataProvider = reactAdminHalDataProvider(accessToken);
+
+  return (
+    <div>
+      <Admin
+        title="Club Abode"
+        dataProvider={dataProvider}
+        dashboard={Overview}
+        layout={Layout}
+        theme={myTheme}
+        customRoutes={[
+          <Route key="map" path="/map" component={MyMapbox}/>
+        ]}
+      >
+        <Resource name="documents" create={DocumentCreate} edit={DocumentEdit}/>
+        <Resource name="fixtures" create={FixtureCreate} edit={FixtureEdit}/>
+        <Resource name="organizations" list={OrganizationList} create={OrganizationCreate} edit={OrganizationEdit}/>
+        <Resource name="organizationMembers" create={OrganizationMemberCreate}/>
+        <Resource name="properties" list={PropertyList} create={PropertyCreate} edit={PropertyEdit}/>
+        <Resource name="members" list={MemberList}/>
+      </Admin>
+    </div>
+  );
+}
+
+// @ts-ignore
+export default withLoginRequired(ReactAdmin);
