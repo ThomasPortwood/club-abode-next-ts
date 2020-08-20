@@ -1,6 +1,6 @@
 import React from 'react';
-// https://github.com/sandrinodimattia/use-auth0-hooks
-import {useAuth} from 'use-auth0-hooks';
+// https://github.com/auth0/auth0-react
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 // https://nextjs.org/docs/basic-features/data-fetching
 import {GetServerSideProps} from "next";
 import {createMuiTheme} from "@material-ui/core/styles";
@@ -32,36 +32,38 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
 function ReactAdmin({testing}) {
 
-  const {accessToken, login, logout} = useAuth({
-    audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
-    scope:
-      "read:fixtures " +
-      "write:fixtures " +
-      "read:verifications " +
-      "write:verifications " +
-      "read:properties " +
-      "write:properties " +
-      "read:documents " +
-      "write:documents " +
-      "read:records " +
-      "write:records " +
-      "read:organizations " +
-      "write:organizations"
-  });
-
-  if (!accessToken) return (
-    <div>
-      Not logged in.
-      <button onClick={() => login({appState: {returnTo: 'http://localhost:3000'}})}>Log in</button>
-    </div>
-  );
+  // const {accessToken, login, logout} = useAuth({
+  //   audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+  //   scope:
+  //     "read:fixtures " +
+  //     "write:fixtures " +
+  //     "read:verifications " +
+  //     "write:verifications " +
+  //     "read:properties " +
+  //     "write:properties " +
+  //     "read:documents " +
+  //     "write:documents " +
+  //     "read:records " +
+  //     "write:records " +
+  //     "read:organizations " +
+  //     "write:organizations"
+  // });
+  //
+  // if (!accessToken) return (
+  //   <div>
+  //     Not logged in.
+  //     <button onClick={() => login({appState: {returnTo: 'http://localhost:3000'}})}>Log in</button>
+  //   </div>
+  // );
 
   //
   // const dataProvider = reactAdminHalDataProvider(accessToken);
 
+  const {user, logout} = useAuth0();
+
   return (
     <div>
-      Testing
+      {user.email}
       <button onClick={() => logout({returnTo: 'http://localhost:3000'})}>Log out</button>
       {/*<Admin*/}
       {/*  title="Club Abode"*/}
@@ -85,4 +87,6 @@ function ReactAdmin({testing}) {
 }
 
 // @ts-ignore
-export default ReactAdmin;
+export default withAuthenticationRequired(ReactAdmin, {
+  onRedirecting: () => <div>Redirecting you to the login page...</div>,
+});

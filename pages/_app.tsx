@@ -1,36 +1,31 @@
 /**
  * https://nextjs.org/learn/basics/assets-metadata-css/global-styles
- * https://github.com/sandrinodimattia/use-auth0-hooks
+ * https://github.com/auth0/auth0-react/blob/master/EXAMPLES.md#3-protecting-a-route-in-a-nextjs-app-in-spa-mode
  */
-import { AppProps } from 'next/app'
-import '../styles/global.css'
-import React from "react";
-import {Auth0Provider} from "use-auth0-hooks";
+import React from 'react';
+import App from 'next/app';
+import Router from 'next/router';
+import {Auth0Provider} from '@auth0/auth0-react';
 
-export default ({
-                  Component,
-                  pageProps
-}: AppProps) => {
+const onRedirectCallback = (appState) => {
+  // Use Next.js's Router.replace method to replace the url
+  Router.replace(appState?.returnTo || '/');
+};
 
-  const redirect = process.env.NEXT_PUBLIC_AUTH0_REDIRECT + '/admin';
-
-  const onRedirecting = () => {
+class MyApp extends App {
+  render() {
+    const {Component, pageProps} = this.props;
     return (
-      <div>
-        <h1>Signing you in</h1>
-        <p>
-          In order to access this page you will need to sign in.
-          Please wait while we redirect you to the login page...
-        </p>
-      </div>
+      <Auth0Provider
+        domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN}
+        clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID}
+        redirectUri={typeof window !== 'undefined' && window.location.origin}
+        onRedirectCallback={onRedirectCallback}
+      >
+        <Component {...pageProps} />
+      </Auth0Provider>
     );
-  };
-
-  return <Auth0Provider
-    domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN}
-    clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID}
-    redirectUri={process.env.NEXT_PUBLIC_AUTH0_REDIRECT}
-    onRedirecting={onRedirecting}>
-    <Component {...pageProps} />
-  </Auth0Provider>
+  }
 }
+
+export default MyApp;
