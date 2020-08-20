@@ -1,25 +1,13 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
-import Head from "next/head";
 // https://github.com/sandrinodimattia/use-auth0-hooks
-import {useAuth, withLoginRequired} from 'use-auth0-hooks';
+import {useAuth} from 'use-auth0-hooks';
 // https://nextjs.org/docs/basic-features/data-fetching
 import {GetServerSideProps} from "next";
 import {createMuiTheme} from "@material-ui/core/styles";
 // https://marmelab.com/react-admin/Tutorial.html
 // https://github.com/marmelab/react-admin/issues/4505
-import {Admin, Loading, Resource} from "react-admin";
+import {Loading} from "react-admin";
 // mine:
-import reactAdminHalDataProvider from "../lib/reactAdminHalDataProvider";
-import Layout from "../components/admin/layout";
-import {PropertyCreate, PropertyEdit, PropertyList} from "../components/admin/properties";
-import {MemberList} from "../components/admin/members";
-import {Overview} from "../components/admin/overview";
-import {OrganizationCreate, OrganizationEdit, OrganizationList} from "../components/admin/organizations";
-import {OrganizationMemberCreate} from "../components/admin/organizationMembers";
-import {FixtureCreate, FixtureEdit} from "../components/admin/fixtures";
-import {DocumentCreate, DocumentEdit} from "../components/admin/documents";
-import MyMapbox from "../components/admin/map";
 
 // https://material-ui.com/customization/typography/
 // https://material-ui.com/customization/breakpoints/
@@ -44,30 +32,39 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
 function ReactAdmin({testing}) {
 
-  // const {accessToken} = useAuth({
-  //   audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
-  //   scope:
-  //     "read:fixtures " +
-  //     "write:fixtures " +
-  //     "read:verifications " +
-  //     "write:verifications " +
-  //     "read:properties " +
-  //     "write:properties " +
-  //     "read:documents " +
-  //     "write:documents " +
-  //     "read:records " +
-  //     "write:records " +
-  //     "read:organizations " +
-  //     "write:organizations"
-  // });
+  const {accessToken, isAuthenticated, isLoading, login, logout} = useAuth({
+    audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+    scope:
+      "read:fixtures " +
+      "write:fixtures " +
+      "read:verifications " +
+      "write:verifications " +
+      "read:properties " +
+      "write:properties " +
+      "read:documents " +
+      "write:documents " +
+      "read:records " +
+      "write:records " +
+      "read:organizations " +
+      "write:organizations"
+  });
 
-  // if (!accessToken) return (<Loading/>)
+  // if (isLoading) return (<Loading/>);
+
+  if (!isAuthenticated) return (
+    <div>
+      Not logged in.
+      <button onClick={() => login({appState: {returnTo: 'http://localhost:3000'}})}>Log in</button>
+    </div>
+  );
+
   //
   // const dataProvider = reactAdminHalDataProvider(accessToken);
 
   return (
     <div>
       Testing
+      <button onClick={() => logout({returnTo: 'http://localhost:3000'})}>Log out</button>
       {/*<Admin*/}
       {/*  title="Club Abode"*/}
       {/*  dataProvider={dataProvider}*/}
@@ -90,5 +87,4 @@ function ReactAdmin({testing}) {
 }
 
 // @ts-ignore
-// export default withLoginRequired(ReactAdmin);
 export default ReactAdmin;
