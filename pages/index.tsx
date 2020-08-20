@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
 function ReactAdmin({testing}) {
 
-  const {accessToken, isAuthenticated, isLoading, login, logout} = useAuth({
+  const {accessToken, login, logout} = useAuth({
     audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
     scope:
       "read:fixtures " +
@@ -49,9 +49,7 @@ function ReactAdmin({testing}) {
       "write:organizations"
   });
 
-  // if (isLoading) return (<Loading/>);
-
-  if (!isAuthenticated) return (
+  if (!accessToken) return (
     <div>
       Not logged in.
       <button onClick={() => login({appState: {returnTo: 'http://localhost:3000'}})}>Log in</button>
