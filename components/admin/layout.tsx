@@ -5,7 +5,7 @@ import {makeStyles, Theme, ThemeProvider} from '@material-ui/core/styles';
 //@ts-ignore
 import {Notification} from 'react-admin';
 import {Button, Divider, Grid, Tab, Tabs, Toolbar, Typography} from "@material-ui/core";
-import {useAuth} from "use-auth0-hooks";
+import {useAuth0} from "@auth0/auth0-react";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -39,7 +39,7 @@ interface LayoutProps {
 
 const Layout = ({children, theme, title}: LayoutProps) => {
 
-  const {logout} = useAuth();
+  const {logout} = useAuth0();
   const history = useHistory();
   const classes = useStyles();
   const [value, setValue] = useState(0);

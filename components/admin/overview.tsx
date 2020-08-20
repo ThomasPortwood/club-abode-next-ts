@@ -3,7 +3,6 @@ import {useState} from "react";
 import {Link, useHistory} from 'react-router-dom';
 import {makeStyles} from "@material-ui/core/styles";
 import {Error, Loading, useQueryWithStore} from 'react-admin';
-import {useAuth} from "use-auth0-hooks";
 import moment from 'moment';
 import {
   Avatar,
@@ -19,6 +18,7 @@ import {
   Typography
 } from '@material-ui/core';
 import Head from "next/head";
+import {useAuth0} from "@auth0/auth0-react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const OverviewProfile = () => {
 
-  const {user} = useAuth();
+  const {user} = useAuth0();
 
   return (
     <Grid container spacing={2}>
