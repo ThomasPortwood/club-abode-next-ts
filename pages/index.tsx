@@ -1,13 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {Route} from 'react-router-dom';
 // https://github.com/auth0/auth0-react
-import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
+import {useAuth0, withAuthenticationRequired} from '@auth0/auth0-react';
 // https://nextjs.org/docs/basic-features/data-fetching
 import {GetServerSideProps} from "next";
-import {createMuiTheme} from "@material-ui/core/styles";
 // https://marmelab.com/react-admin/Tutorial.html
-// https://github.com/marmelab/react-admin/issues/4505
-import {Loading} from "react-admin";
+import {Admin, Resource} from "react-admin";
+import {createMuiTheme} from "@material-ui/core/styles";
 // mine:
+import reactAdminHalDataProvider from "../lib/reactAdminHalDataProvider";
+import Layout from "../components/admin/layout";
+import {Overview} from "../components/admin/overview";
+import MyMapbox from "../components/admin/map";
+import {DocumentCreate, DocumentEdit} from "../components/admin/documents";
+import {FixtureCreate, FixtureEdit} from "../components/admin/fixtures";
+import {OrganizationCreate, OrganizationEdit, OrganizationList} from "../components/admin/organizations";
+import {OrganizationMemberCreate} from "../components/admin/organizationMembers";
+import {PropertyCreate, PropertyEdit, PropertyList} from "../components/admin/properties";
+import {MemberList} from "../components/admin/members";
 
 // https://material-ui.com/customization/typography/
 // https://material-ui.com/customization/breakpoints/
@@ -32,56 +42,60 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
 function ReactAdmin({testing}) {
 
-  // const {accessToken, login, logout} = useAuth({
-  //   audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
-  //   scope:
-  //     "read:fixtures " +
-  //     "write:fixtures " +
-  //     "read:verifications " +
-  //     "write:verifications " +
-  //     "read:properties " +
-  //     "write:properties " +
-  //     "read:documents " +
-  //     "write:documents " +
-  //     "read:records " +
-  //     "write:records " +
-  //     "read:organizations " +
-  //     "write:organizations"
-  // });
-  //
-  // if (!accessToken) return (
-  //   <div>
-  //     Not logged in.
-  //     <button onClick={() => login({appState: {returnTo: 'http://localhost:3000'}})}>Log in</button>
-  //   </div>
-  // );
+  const {getAccessTokenSilently} = useAuth0();
 
-  //
-  // const dataProvider = reactAdminHalDataProvider(accessToken);
+  const [dataProvider, setDataProvider] = useState<any>();
 
-  const {user, logout} = useAuth0();
+  useEffect(() => {
+
+    (async () => {
+
+      const options = {
+        audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+        scope:
+          "read:fixtures " +
+          "write:fixtures " +
+          "read:verifications " +
+          "write:verifications " +
+          "read:properties " +
+          "write:properties " +
+          "read:documents " +
+          "write:documents " +
+          "read:records " +
+          "write:records " +
+          "read:organizations " +
+          "write:organizations"
+      }
+
+      const accessToken = await getAccessTokenSilently(options);
+
+      setDataProvider(reactAdminHalDataProvider(accessToken));
+
+    })();
+
+  }, [getAccessTokenSilently])
+
+  if (!dataProvider) return (<div>Getting data provider.</div>);
 
   return (
     <div>
-      {user.email}
-      <button onClick={() => logout({returnTo: 'http://localhost:3000'})}>Log out</button>
-      {/*<Admin*/}
-      {/*  title="Club Abode"*/}
-      {/*  dataProvider={dataProvider}*/}
-      {/*  dashboard={Overview}*/}
-      {/*  layout={Layout}*/}
-      {/*  theme={myTheme}*/}
-      {/*  customRoutes={[*/}
-      {/*    <Route key="map" path="/map" component={MyMapbox}/>*/}
-      {/*  ]}*/}
-      {/*>*/}
-      {/*  <Resource name="documents" create={DocumentCreate} edit={DocumentEdit}/>*/}
-      {/*  <Resource name="fixtures" create={FixtureCreate} edit={FixtureEdit}/>*/}
-      {/*  <Resource name="organizations" list={OrganizationList} create={OrganizationCreate} edit={OrganizationEdit}/>*/}
-      {/*  <Resource name="organizationMembers" create={OrganizationMemberCreate}/>*/}
-      {/*  <Resource name="properties" list={PropertyList} create={PropertyCreate} edit={PropertyEdit}/>*/}
-      {/*  <Resource name="members" list={MemberList}/>*/}
-      {/*</Admin>*/}
+      <Admin
+        title="Club Abode"
+        dataProvider={dataProvider}
+        dashboard={Overview}
+        layout={Layout}
+        theme={myTheme}
+        customRoutes={[
+          <Route key="map" path="/map" component={MyMapbox}/>
+        ]}
+      >
+        <Resource name="documents" create={DocumentCreate} edit={DocumentEdit}/>
+        <Resource name="fixtures" create={FixtureCreate} edit={FixtureEdit}/>
+        <Resource name="organizations" list={OrganizationList} create={OrganizationCreate} edit={OrganizationEdit}/>
+        <Resource name="organizationMembers" create={OrganizationMemberCreate}/>
+        <Resource name="properties" list={PropertyList} create={PropertyCreate} edit={PropertyEdit}/>
+        <Resource name="members" list={MemberList}/>
+      </Admin>
     </div>
   );
 }
