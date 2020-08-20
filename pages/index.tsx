@@ -90,4 +90,5 @@ function ReactAdmin({testing}) {
 }
 
 // @ts-ignore
-export default withLoginRequired(ReactAdmin);
+// export default withLoginRequired(ReactAdmin);
+export default ReactAdmin;
