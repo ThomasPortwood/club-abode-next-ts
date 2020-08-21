@@ -96,7 +96,7 @@ export const OrganizationList = (props: any) => {
           <SimpleList
             primaryText={(record: any) => record.name}
             secondaryText={(record: any) => record.createdAt}
-            linkType={false}/>
+            linkType="edit"/>
         ) : (
           <Datagrid rowClick="edit">
             <TextField source="name"/>

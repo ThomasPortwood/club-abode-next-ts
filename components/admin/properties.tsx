@@ -92,7 +92,7 @@ export const PropertyList = (props: any) => {
           <SimpleList
             primaryText={(record: any) => record.name}
             secondaryText={(record: any) => record.address}
-            linkType={false}/>
+            linkType="edit"/>
         ) : (
           <Datagrid rowClick="edit">
             <TextField source="name"/>
