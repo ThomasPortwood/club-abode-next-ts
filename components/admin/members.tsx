@@ -7,9 +7,7 @@ import {Theme, useMediaQuery} from "@material-ui/core";
 import Head from "next/head";
 
 export const MemberList = (props: any) => {
-
   const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
-
   return (
     <div>
       <Head>
@@ -19,7 +17,7 @@ export const MemberList = (props: any) => {
         {isSmall ? (
           <SimpleList
             primaryText={(record: any) => record.name}
-            secondaryText={(record: any) => `Member since ${record.createdAt}`}
+            secondaryText={(record: any) => record.createdAt}
             linkType={false}/>
         ) : (
           <Datagrid>

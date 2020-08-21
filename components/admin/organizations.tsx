@@ -18,6 +18,7 @@ import {
   ReferenceInput,
   ReferenceManyField,
   sanitizeListRestProps,
+  SimpleList,
   SimpleForm,
   TabbedForm,
   TextField,
@@ -28,6 +29,7 @@ import {
 import {Link, useHistory} from 'react-router-dom';
 import IconAdd from '@material-ui/icons/Add';
 import Head from "next/head";
+import {Theme, useMediaQuery} from "@material-ui/core";
 
 const OrganizationFilter = (props: any) => (
   <Filter {...props}>
@@ -82,22 +84,32 @@ const OrganizationListActions = (props: any) => {
   );
 };
 
-export const OrganizationList = (props: any) => (
-  <div>
-    <Head>
-      <title>All Organizations</title>
-    </Head>
-    <List actions={<OrganizationListActions/>} filters={<OrganizationFilter/>} {...props}>
-      <Datagrid rowClick="edit">
-        <TextField source="name"/>
-        <ReferenceField label="Owner" source="ownerId" reference="members">
-          <TextField source="name"/>
-        </ReferenceField>
-        <EditButton/>
-      </Datagrid>
-    </List>
-  </div>
-);
+export const OrganizationList = (props: any) => {
+  const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
+  return (
+    <div>
+      <Head>
+        <title>All Organizations</title>
+      </Head>
+      <List actions={<OrganizationListActions/>} filters={<OrganizationFilter/>} {...props}>
+        {isSmall ? (
+          <SimpleList
+            primaryText={(record: any) => record.name}
+            secondaryText={(record: any) => record.createdAt}
+            linkType={false}/>
+        ) : (
+          <Datagrid rowClick="edit">
+            <TextField source="name"/>
+            <ReferenceField label="Owner" source="ownerId" reference="members">
+              <TextField source="name"/>
+            </ReferenceField>
+            <EditButton/>
+          </Datagrid>
+        )}
+      </List>
+    </div>
+  )
+};
 
 export const OrganizationCreate = (props: any) => (
   <div>

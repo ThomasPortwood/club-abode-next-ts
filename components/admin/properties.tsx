@@ -15,6 +15,7 @@ import {
   ReferenceManyField,
   sanitizeListRestProps,
   SimpleForm,
+  SimpleList,
   TabbedForm,
   TextField,
   TextInput,
@@ -24,6 +25,7 @@ import {
 import {Link, useHistory} from "react-router-dom";
 import IconAdd from "@material-ui/icons/Add";
 import Head from "next/head";
+import {Theme, useMediaQuery} from "@material-ui/core";
 
 const PropertyListActions = (props: any) => {
 
@@ -78,19 +80,29 @@ const PropertyFilter = (props: any) => (
   </Filter>
 );
 
-export const PropertyList = (props: any) => (
-  <div>
-    <Head>
-      <title>All Properties</title>
-    </Head>
-    <List actions={<PropertyListActions/>} filters={<PropertyFilter/>} {...props}>
-      <Datagrid rowClick="edit">
-        <TextField source="name"/>
-        <EditButton/>
-      </Datagrid>
-    </List>
-  </div>
-);
+export const PropertyList = (props: any) => {
+  const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
+  return (
+    <div>
+      <Head>
+        <title>All Properties</title>
+      </Head>
+      <List actions={<PropertyListActions/>} filters={<PropertyFilter/>} {...props}>
+        {isSmall ? (
+          <SimpleList
+            primaryText={(record: any) => record.name}
+            secondaryText={(record: any) => record.address}
+            linkType={false}/>
+        ) : (
+          <Datagrid rowClick="edit">
+            <TextField source="name"/>
+            <EditButton/>
+          </Datagrid>
+        )}
+      </List>
+    </div>
+  )
+};
 
 export const PropertyCreate = (props: any) => {
   const redirect = `/properties`;
