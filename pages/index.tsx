@@ -75,7 +75,7 @@ function ReactAdmin({testing}) {
 
   }, [getAccessTokenSilently])
 
-  if (!dataProvider) return (<div>Getting data provider.</div>);
+  if (!dataProvider) return (<div>Creating data provider ...</div>);
 
   return (
     <div>
@@ -102,5 +102,5 @@ function ReactAdmin({testing}) {
 
 // @ts-ignore
 export default withAuthenticationRequired(ReactAdmin, {
-  onRedirecting: () => <div>Redirecting you to the login page...</div>,
+  onRedirecting: () => <div>Going to login ...</div>,
 });

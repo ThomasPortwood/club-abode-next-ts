@@ -2,7 +2,6 @@ import * as React from 'react';
 import {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {makeStyles, Theme, ThemeProvider} from '@material-ui/core/styles';
-//@ts-ignore
 import {Notification} from 'react-admin';
 import {Button, Divider, Grid, Tab, Tabs, Toolbar, Typography} from "@material-ui/core";
 import {useAuth0} from "@auth0/auth0-react";
@@ -10,9 +9,6 @@ import {useAuth0} from "@auth0/auth0-react";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
-  },
-  bar: {
-    color: 'transparent'
   },
   title: {
     flexGrow: 1,
