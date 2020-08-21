@@ -19,6 +19,7 @@ import {OrganizationMemberCreate} from "../components/admin/organizationMembers"
 import {PropertyCreate, PropertyEdit, PropertyList} from "../components/admin/properties";
 import {MemberList} from "../components/admin/members";
 import Head from "next/head";
+import {RecordCreate, RecordEdit} from "../components/admin/records";
 
 // https://material-ui.com/customization/typography/
 // https://material-ui.com/customization/breakpoints/
@@ -103,6 +104,7 @@ function ReactAdmin({testing}) {
         <Resource name="organizationMembers" create={OrganizationMemberCreate}/>
         <Resource name="properties" list={PropertyList} create={PropertyCreate} edit={PropertyEdit}/>
         <Resource name="members" list={MemberList}/>
+        <Resource name="records" create={RecordCreate} edit={RecordEdit}/>
       </Admin>
     </div>
   );

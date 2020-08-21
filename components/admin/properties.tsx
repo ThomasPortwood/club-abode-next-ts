@@ -140,6 +140,15 @@ const AddDocumentButton = ({classes, record}: any) => (
   />
 );
 
+const AddRecordButton = ({classes, record}: any) => (
+  <Button
+    variant="contained"
+    component={Link}
+    to={`/records/create?propertyId=${record.id}`}
+    label="Add Record"
+  />
+);
+
 export const PropertyEdit = (props: any) => {
   return (
     <div>
@@ -159,6 +168,18 @@ export const PropertyEdit = (props: any) => {
               </Datagrid>
             </ReferenceManyField>
             <AddFixtureButton/>
+          </FormTab>
+          <FormTab label="Records">
+            <ReferenceManyField
+              reference="records"
+              target={`${props.basePath}/${props.id}/records`}>
+              <Datagrid rowClick="edit">
+                <TextField source="name"/>
+                <EditButton/>
+                <DeleteButton/>
+              </Datagrid>
+            </ReferenceManyField>
+            <AddRecordButton/>
           </FormTab>
           <FormTab label="Documents">
             <ReferenceManyField
