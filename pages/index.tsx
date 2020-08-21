@@ -18,12 +18,14 @@ import {OrganizationCreate, OrganizationEdit, OrganizationList} from "../compone
 import {OrganizationMemberCreate} from "../components/admin/organizationMembers";
 import {PropertyCreate, PropertyEdit, PropertyList} from "../components/admin/properties";
 import {MemberList} from "../components/admin/members";
+import Head from "next/head";
 
 // https://material-ui.com/customization/typography/
 // https://material-ui.com/customization/breakpoints/
 const myTheme = createMuiTheme();
 myTheme.typography.h4 = {
   fontSize: '1.0rem',
+  fontFamily: 'roboto',
   [myTheme.breakpoints.up('md')]: {
     fontSize: '1.5rem',
   },
@@ -79,6 +81,12 @@ function ReactAdmin({testing}) {
 
   return (
     <div>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
       <Admin
         title="Club Abode"
         dataProvider={dataProvider}
