@@ -157,18 +157,6 @@ export const PropertyEdit = (props: any) => {
       </Head>
       <Edit {...props}>
         <TabbedForm redirect={false}>
-          <FormTab label="Fixtures">
-            <ReferenceManyField
-              reference="fixtures"
-              target={`${props.basePath}/${props.id}/fixtures`}>
-              <Datagrid rowClick="edit">
-                <TextField source="name"/>
-                <EditButton/>
-                <DeleteButton/>
-              </Datagrid>
-            </ReferenceManyField>
-            <AddFixtureButton/>
-          </FormTab>
           <FormTab label="Records">
             <ReferenceManyField
               reference="records"
@@ -180,6 +168,18 @@ export const PropertyEdit = (props: any) => {
               </Datagrid>
             </ReferenceManyField>
             <AddRecordButton/>
+          </FormTab>
+          <FormTab label="Fixtures">
+            <ReferenceManyField
+              reference="fixtures"
+              target={`${props.basePath}/${props.id}/fixtures`}>
+              <Datagrid rowClick="edit">
+                <TextField source="name"/>
+                <EditButton/>
+                <DeleteButton/>
+              </Datagrid>
+            </ReferenceManyField>
+            <AddFixtureButton/>
           </FormTab>
           <FormTab label="Documents">
             <ReferenceManyField

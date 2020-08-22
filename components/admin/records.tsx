@@ -2,10 +2,10 @@ import React from 'react';
 // https://marmelab.com/react-admin/Tutorial.html
 // https://github.com/marmelab/react-admin/issues/4505
 // @ts-ignore
-import {Create, Edit, FileField, FileInput, ReferenceInput, SelectInput, SimpleForm, TextInput} from 'react-admin';
-import {Typography} from '@material-ui/core';
+import {Create, Edit, ReferenceInput, SelectInput, SimpleForm, TextInput} from 'react-admin';
 import {parse} from "query-string";
 import Head from "next/head";
+import {getAttributeValue, setAttributeValue} from "../../lib/attributeUtilities";
 
 export const RecordCreate = (props: any) => {
   const {propertyId} = parse(props.location.search);
@@ -32,12 +32,19 @@ export const RecordEdit = (props: any) => (
       <title>Edit Record</title>
     </Head>
     <Edit {...props}>
-      <SimpleForm>
+      <SimpleForm redirect={false}>
         <ReferenceInput label="Property" source="parentId" reference="properties">
           <SelectInput optionText="name"/>
         </ReferenceInput>
         <TextInput source="name"/>
-        <TextInput source="attributes"/>
+        <TextInput
+          source="attributes"
+          multiline
+          resettable
+          fullWidth
+          format={(record: any) => getAttributeValue(record, 'text')}
+          parse={(value: string) => setAttributeValue('text', value)}
+          label="Text"/>
       </SimpleForm>
     </Edit>
   </div>
