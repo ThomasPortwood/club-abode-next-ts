@@ -75,10 +75,24 @@ export const PropertyCard = ({property}: any) => {
       </CardContent>
       <Divider light={true}/>
       <CardActions>
-        <Button size="small" className={classes.propertyCardTitle}>
+        <Button variant="outlined" size="small" className={classes.propertyCardTitle}>
           <Link to={`/properties/${property.id}`}>
             <Typography className={classes.propertyCardTitle}>
-              Details
+              History
+            </Typography>
+          </Link>
+        </Button>
+        <Button variant="outlined" size="small" className={classes.propertyCardTitle}>
+          <Link to={`/properties/${property.id}/1`}>
+            <Typography className={classes.propertyCardTitle}>
+              Fixtures
+            </Typography>
+          </Link>
+        </Button>
+        <Button variant="outlined" size="small" className={classes.propertyCardTitle}>
+          <Link to={`/properties/${property.id}/2`}>
+            <Typography className={classes.propertyCardTitle}>
+              Documents
             </Typography>
           </Link>
         </Button>
@@ -86,6 +100,32 @@ export const PropertyCard = ({property}: any) => {
     </Card>
   )
 };
+
+
+const Something = () => {
+
+  const [events, setEvents] = useState([]);
+
+  const {loaded, error} = useQueryWithStore(
+    {
+      type: 'getList',
+      resource: 'events',
+      payload: {filter: {}, sort: {field: "createdAt", order: "desc"}}
+    },
+    {
+      onSuccess: ({data}: any) => {
+        setEvents(data);
+      }
+    }
+  );
+
+  return (
+    <div>
+      Events
+      {events.map(t => <div>{`${t.createdAt} ${t.attributes.description}`}</div>)}
+    </div>
+  )
+}
 
 export const Overview = () => {
 
@@ -140,7 +180,7 @@ export const Overview = () => {
             </Grid>
           </Grid>
           <Grid item xs='auto'>
-            Recent Activity (coming soon)
+            <Something/>
           </Grid>
         </Grid>
       </Grid>

@@ -99,6 +99,7 @@ function ReactAdmin({testing}) {
         ]}
       >
         <Resource name="documents" create={DocumentCreate} edit={DocumentEdit}/>
+        <Resource name="events"/>
         <Resource name="fixtures" create={FixtureCreate} edit={FixtureEdit}/>
         <Resource name="organizations" list={OrganizationList} create={OrganizationCreate} edit={OrganizationEdit}/>
         <Resource name="organizationMembers" create={OrganizationMemberCreate}/>

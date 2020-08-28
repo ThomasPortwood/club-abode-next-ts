@@ -96,6 +96,7 @@ export const PropertyList = (props: any) => {
         ) : (
           <Datagrid rowClick="edit">
             <TextField source="name"/>
+            <TextField source="address"/>
             <EditButton/>
           </Datagrid>
         )}
