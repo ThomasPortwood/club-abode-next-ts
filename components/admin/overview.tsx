@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
     propertyCard: {
-      minWidth: 400
     },
     propertyCardTitle: {
       fontSize: 12
@@ -174,7 +173,7 @@ export const Overview = () => {
 
       <Grid container spacing={2} justify="center">
 
-        <Grid container spacing={5} item xs={12}>
+        <Grid container spacing={2} item xs={12}>
 
           <Grid item md={8} xs={8}>
             <OverviewProfile/>
@@ -189,7 +188,7 @@ export const Overview = () => {
 
         </Grid>
 
-        <Grid container spacing={5} item xs={12}>
+        <Grid container spacing={2} item xs={12}>
 
           <Grid item md={8} xs={12}>
             <Grid container spacing={2} >

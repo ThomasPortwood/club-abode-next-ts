@@ -51,7 +51,7 @@ const Layout = ({children, theme, title}: LayoutProps) => {
 
         <Grid container justify="center" spacing={2}>
 
-          <Grid item md={10} xs={12}>
+          <Grid item md={8} xs={12}>
             <Toolbar>
               <Typography className={classes.title}>{title}</Typography>
               <Button
@@ -63,7 +63,7 @@ const Layout = ({children, theme, title}: LayoutProps) => {
             </Toolbar>
           </Grid>
 
-          <Grid item xs={10}>
+          <Grid item md={8} xs={12}>
             <Tabs
               centered
               variant="fullWidth"
@@ -74,7 +74,7 @@ const Layout = ({children, theme, title}: LayoutProps) => {
             <Divider light={true}/>
           </Grid>
 
-          <Grid item xs={10}>
+          <Grid item md={8} xs={12}>
             {children}
           </Grid>
 
