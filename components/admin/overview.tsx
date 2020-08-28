@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
     propertyCard: {
-      minWidth: 300
+      minWidth: 400
     },
     propertyCardTitle: {
       fontSize: 12
@@ -40,10 +40,10 @@ export const OverviewProfile = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs='auto'>
+      <Grid item>
         <img src={user.picture} alt="Profile" width={50}/>
       </Grid>
-      <Grid item xs='auto'>
+      <Grid item>
         <Typography variant="h4">{user.name}</Typography>
         <Typography>{user.email}</Typography>
       </Grid>
@@ -120,11 +120,25 @@ const Something = () => {
   );
 
   return (
-    <div>
-      Events
-      {events.map(t => <div>{`${t.createdAt} ${t.attributes.description}`}</div>)}
-    </div>
+    <Grid container>
+      <Typography>Events</Typography>
+      {events.map(t => <Event key={t.id} event={t}/>)}
+    </Grid>
   )
+}
+
+const Event = ({event}: any) => {
+
+  const interval = moment(event.createdAt).toNow(true);
+
+  return (
+    <Grid item xs={12}>
+      <Divider/>
+      <Typography variant="body2">
+        {`${event.attributes.description} ${interval} ago`}
+      </Typography>
+    </Grid>
+  );
 }
 
 export const Overview = () => {
@@ -157,21 +171,28 @@ export const Overview = () => {
       <Head>
         <title>Overview</title>
       </Head>
+
       <Grid container spacing={2} justify="center">
-        <Grid container spacing={2} justify="center" item xs={12}>
-          <Grid item xs={6}>
+
+        <Grid container spacing={5} item xs={12}>
+
+          <Grid item md={8} xs={8}>
             <OverviewProfile/>
           </Grid>
-          <Grid item xs='auto'>
+
+          <Grid item md={4} xs={4}>
             <Button
               variant='outlined'
               onClick={() => history.push('/properties/create')}>New Property
             </Button>
           </Grid>
+
         </Grid>
-        <Grid container spacing={2} justify="center" item xs={12}>
-          <Grid item lg={8} xs='auto'>
-            <Grid container spacing={2} justify="center">
+
+        <Grid container spacing={5} item xs={12}>
+
+          <Grid item md={8} xs={12}>
+            <Grid container spacing={2} >
               {properties.map(p => (
                 <Grid key={p.id} item>
                   <PropertyCard property={p}/>
@@ -179,10 +200,13 @@ export const Overview = () => {
               ))}
             </Grid>
           </Grid>
-          <Grid item xs='auto'>
+
+          <Grid item md={4} xs={12}>
             <Something/>
           </Grid>
+
         </Grid>
+
       </Grid>
     </div>
   )
